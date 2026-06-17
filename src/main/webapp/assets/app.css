@@ -1,0 +1,184 @@
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: #f5f7fb;
+    color: #233044;
+    font-family: "Microsoft YaHei", Arial, sans-serif;
+}
+
+a {
+    color: #275db3;
+    text-decoration: none;
+}
+
+.shell {
+    max-width: 1120px;
+    margin: 0 auto;
+    padding: 24px;
+}
+
+.phone-shell {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+.topbar {
+    background: #18345f;
+    color: white;
+    padding: 14px 24px;
+}
+
+.topbar a {
+    color: white;
+    margin-right: 18px;
+}
+
+.panel, .card {
+    background: white;
+    border: 1px solid #e2e8f0;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 18px;
+    box-shadow: 0 8px 24px rgba(35, 48, 68, .06);
+}
+
+.hero {
+    background: #18345f;
+    color: white;
+    padding: 28px;
+    border-radius: 8px;
+    margin-bottom: 18px;
+}
+
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+    gap: 16px;
+}
+
+label {
+    display: block;
+    margin: 10px 0 6px;
+    font-weight: 600;
+}
+
+input, select, textarea {
+    width: 100%;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    padding: 10px;
+    font: inherit;
+    background: white;
+}
+
+textarea {
+    min-height: 86px;
+}
+
+button, .button {
+    display: inline-block;
+    border: 0;
+    border-radius: 6px;
+    padding: 10px 14px;
+    background: #2358a8;
+    color: white;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.button.secondary, button.secondary {
+    background: #64748b;
+}
+
+.button.danger, button.danger {
+    background: #b42318;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+}
+
+th, td {
+    border-bottom: 1px solid #e2e8f0;
+    padding: 10px;
+    text-align: left;
+    vertical-align: top;
+}
+
+th {
+    background: #f1f5f9;
+}
+
+.badge {
+    display: inline-block;
+    border-radius: 999px;
+    padding: 4px 10px;
+    background: #e2e8f0;
+}
+
+.badge.ok {
+    background: #d8b4fe;
+    color: #4c1d95;
+}
+
+.badge.gray {
+    background: #d1d5db;
+    color: #374151;
+}
+
+.error {
+    color: #b42318;
+    font-weight: 700;
+}
+
+.pass-card {
+    text-align: center;
+    color: white;
+    border-radius: 8px;
+    padding: 24px;
+    background: #7e22ce;
+}
+
+.pass-card.invalid {
+    background: #6b7280;
+}
+
+.qr {
+    width: 190px;
+    height: 190px;
+    margin: 18px auto;
+    background:
+            linear-gradient(90deg, #111 10px, transparent 10px) 0 0 / 20px 20px,
+            linear-gradient(#111 10px, transparent 10px) 0 0 / 20px 20px,
+            white;
+    border: 12px solid white;
+}
+
+.qr-img {
+    width: 220px;
+    height: 220px;
+    margin: 18px auto;
+    display: block;
+    border: 12px solid white;
+    background: white;
+}
+
+.muted {
+    color: #64748b;
+}
+
+@media (max-width: 720px) {
+    .shell, .phone-shell {
+        padding: 14px;
+    }
+
+    table {
+        font-size: 13px;
+    }
+}
