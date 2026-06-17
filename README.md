@@ -44,7 +44,20 @@ target/demo-1.0-SNAPSHOT.war
 | 部门管理员 | dept | Dept@1234 |
 | 审计管理员 | audit | Audit@123 |
 
-默认使用本机 MySQL 数据库，数据库名为 `campus_pass_demo`，首次连接会自动创建。代码仓库不保存个人数据库密码；每位组员按自己电脑上的 MySQL 账号配置即可。可通过 JVM 参数覆盖：
+默认使用本机 MySQL 数据库，数据库名为 `campus_pass_demo`，首次连接会自动创建。组员 clone 后先打开下面这个文件，把数据库用户名和密码改成自己电脑上的 MySQL 配置：
+
+```text
+src/main/java/org/example/demo/util/DbUtil.java
+```
+
+主要修改这两行：
+
+```java
+private static final String USER = readConfig("campus.db.user", "CAMPUS_DB_USER", "root");
+private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "请改成自己的MySQL密码");
+```
+
+如果不想改代码，也可以通过 JVM 参数覆盖：
 
 ```text
 -Dcampus.db.url=jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true

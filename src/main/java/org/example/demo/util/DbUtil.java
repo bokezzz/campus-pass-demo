@@ -29,7 +29,7 @@ public final class DbUtil {
     private static final String URL = System.getProperty("campus.db.url",
             "jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true");
     private static final String USER = readConfig("campus.db.user", "CAMPUS_DB_USER", "root");
-    private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "");
+    private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "请改成自己的MySQL密码");
 
     /**
      * 防止同一个 Web 应用生命周期内重复执行建表和种子数据初始化。
