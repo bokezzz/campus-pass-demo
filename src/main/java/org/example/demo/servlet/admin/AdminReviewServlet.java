@@ -13,12 +13,6 @@ import org.example.demo.model.ReservationStatus;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 公务预约审核控制器。
- *
- * <p>公务预约提交后不会自动生效，而是进入 PENDING 状态。
- * 后台管理员在公务预约列表中选择“通过”或“驳回”，最终由这个 Servlet 更新审核状态。</p>
- */
 @WebServlet("/admin/review")
 public class AdminReviewServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

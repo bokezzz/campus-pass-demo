@@ -9,12 +9,6 @@ import jakarta.servlet.annotation.WebFilter;
 
 import java.io.IOException;
 
-/**
- * 全局编码过滤器。
- *
- * <p>所有请求和响应统一设置为 UTF-8，避免预约人姓名、部门名称、
- * 审核意见等中文内容在表单提交和页面展示时出现乱码。</p>
- */
 @WebFilter("/*")
 public class EncodingFilter implements Filter {
     @Override

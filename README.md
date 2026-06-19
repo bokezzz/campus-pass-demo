@@ -20,6 +20,13 @@
 
 访问：
 
+如果使用 IDEA + Tomcat + `demo:war exploded` 运行，上下文路径一般是 `demo_war_exploded`：
+
+- 手机端：http://localhost:8080/demo_war_exploded/
+- 后台端：http://localhost:8080/demo_war_exploded/admin/login
+
+如果使用 Maven Jetty 运行 `.\mvnw.cmd jetty:run`，上下文路径一般是 `demo`：
+
 - 手机端：http://localhost:8080/demo/
 - 后台端：http://localhost:8080/demo/admin/login
 

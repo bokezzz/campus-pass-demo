@@ -14,12 +14,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-/**
- * 通行码页面控制器。
- *
- * <p>根据预约 ID 查询预约记录，并调用 ReservationService 判断通行码是否有效。
- * 判断结果通过 request 属性传给 JSP，由 JSP 决定展示紫色有效码还是灰色无效码。</p>
- */
 @WebServlet("/pass-code")
 public class PassCodeServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

@@ -14,18 +14,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 管理员 DAO。
- *
- * <p>负责后台管理员账号的查询、保存、删除以及登录失败次数维护。
- * 登录认证本身在 AdminLoginServlet 中完成，但账号数据都由本类从数据库读取。</p>
- */
 public class AdminUserDao {
-    /**
-     * 根据登录名查询管理员。
-     *
-     * <p>后台登录时首先调用此方法找到账号，再比较密码 SM3 摘要。</p>
-     */
     public AdminUser findByLoginName(String loginName) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("""
@@ -40,7 +29,6 @@ public class AdminUserDao {
         }
     }
 
-    /** 按 ID 查询管理员，用于后台编辑管理员时回显数据。 */
     public AdminUser findById(long id) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("""
@@ -55,7 +43,6 @@ public class AdminUserDao {
         }
     }
 
-    /** 查询全部管理员，并联表带出所在部门名称。 */
     public List<AdminUser> findAll() throws SQLException {
         List<AdminUser> users = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
@@ -72,12 +59,6 @@ public class AdminUserDao {
         return users;
     }
 
-    /**
-     * 新增或修改管理员。
-     *
-     * <p>id 为空时执行 insert；id 不为空时执行 update。
-     * 修改时如果密码输入框为空，就不更新 password_hash，避免无意中清空密码。</p>
-     */
     public void save(AdminUser user, String plainPassword) throws SQLException {
         if (user.getId() == null) {
             try (Connection connection = DbUtil.getConnection();
@@ -116,12 +97,6 @@ public class AdminUserDao {
         }
     }
 
-    /**
-     * 记录一次登录失败。
-     *
-     * <p>任务书要求“登录失败 5 次锁定 30 分钟”，因此失败次数达到 5 次后
-     * 写入 locked_until，后续登录会先判断是否仍在锁定时间内。</p>
-     */
     public void recordLoginFailure(AdminUser user) throws SQLException {
         int attempts = user.getFailedAttempts() + 1;
         LocalDateTime lockedUntil = attempts >= 5 ? LocalDateTime.now().plusMinutes(30) : null;
@@ -138,7 +113,6 @@ public class AdminUserDao {
         }
     }
 
-    /** 登录成功后清空失败次数和锁定时间。 */
     public void clearLoginFailure(long id) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("update admin_users set failed_attempts=0, locked_until=null where id=?")) {
@@ -147,7 +121,6 @@ public class AdminUserDao {
         }
     }
 
-    /** 删除管理员账号。 */
     public void delete(long id) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("delete from admin_users where id=?")) {
@@ -156,7 +129,6 @@ public class AdminUserDao {
         }
     }
 
-    /** 新增管理员时绑定字段，密码在这里转换为 SM3 摘要。 */
     private void fillForSave(PreparedStatement statement, AdminUser user, String plainPassword) throws SQLException {
         statement.setString(1, user.getName());
         statement.setString(2, user.getLoginName());
@@ -172,7 +144,6 @@ public class AdminUserDao {
         statement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
     }
 
-    /** 将数据库查询结果映射成 AdminUser JavaBean。 */
     private AdminUser map(ResultSet resultSet) throws SQLException {
         AdminUser user = new AdminUser();
         user.setId(resultSet.getLong("id"));

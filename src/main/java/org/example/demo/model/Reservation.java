@@ -2,13 +2,6 @@ package org.example.demo.model;
 
 import java.time.LocalDateTime;
 
-/**
- * 预约实体类，对应数据库 reservations 表。
- *
- * <p>社会公众预约和公务预约共用这一张表：
- * type 字段区分预约类型，status 字段记录审核状态。
- * 公务预约特有的访问部门、接待人、来访事由也放在这里。</p>
- */
 public class Reservation {
     private Long id;
     private ReservationType type;

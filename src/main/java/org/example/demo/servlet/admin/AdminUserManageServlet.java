@@ -15,12 +15,6 @@ import org.example.demo.util.SecurityUtil;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 后台管理员管理控制器。
- *
- * <p>负责管理员账号的新增、修改、删除，以及角色、部门、授权信息的维护。
- * 密码复杂度在控制器中校验，密码 SM3 摘要在 DAO 中保存。</p>
- */
 @WebServlet("/admin/users")
 public class AdminUserManageServlet extends HttpServlet {
     private final AdminUserDao adminUserDao = new AdminUserDao();

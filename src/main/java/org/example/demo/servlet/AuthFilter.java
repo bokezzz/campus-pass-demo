@@ -11,12 +11,6 @@ import jakarta.servlet.http.HttpServletResponse;
 
 import java.io.IOException;
 
-/**
- * 后台登录拦截过滤器。
- *
- * <p>所有 /admin/* 请求都会先经过这里。除了登录页本身，
- * 其他后台页面必须先登录并在 Session 中保存 admin 对象，否则重定向到登录页。</p>
- */
 @WebFilter("/admin/*")
 public class AuthFilter implements Filter {
     @Override

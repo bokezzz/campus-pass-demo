@@ -11,12 +11,6 @@ import org.example.demo.dao.ReservationDao;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 手机端“我的预约”控制器。
- *
- * <p>GET 请求显示查询表单；POST 请求根据姓名、身份证号、手机号查询历史预约。
- * 三个身份字段共同匹配，减少他人只凭姓名查询隐私信息的风险。</p>
- */
 @WebServlet("/my-reservations")
 public class MyReservationsServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

@@ -19,18 +19,7 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 预约数据访问对象。
- *
- * <p>DAO 层只负责和数据库交互，不直接处理页面跳转。
- * 这样 Servlet、Service、DAO 三层职责清晰，符合课程设计要求的 DAO + MVC 模式。</p>
- */
 public class ReservationDao {
-    /**
-     * 保存一条新预约，并返回数据库自动生成的主键 ID。
-     *
-     * <p>返回 ID 后，Servlet 可以跳转到 /pass-code?id=... 显示刚生成的通行码。</p>
-     */
     public long save(Reservation reservation) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("""
@@ -46,11 +35,6 @@ public class ReservationDao {
         }
     }
 
-    /**
-     * 按预约 ID 查询单条记录。
-     *
-     * <p>通行码页面和二维码图片接口都需要通过 ID 找到对应预约记录。</p>
-     */
     public Reservation findById(long id) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement(baseSql() + " where r.id=?")) {
@@ -61,12 +45,6 @@ public class ReservationDao {
         }
     }
 
-    /**
-     * 手机端“我的预约”查询。
-     *
-     * <p>任务书要求输入本人姓名、身份证号、手机号查询历史预约记录，
-     * 所以这里三个条件都必须匹配，避免别人只知道姓名就查到隐私信息。</p>
-     */
     public List<Reservation> findByVisitor(String name, String identityNo, String phone) throws SQLException {
         List<Reservation> reservations = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();
@@ -86,16 +64,6 @@ public class ReservationDao {
         return reservations;
     }
 
-    /**
-     * 后台预约管理的组合查询。
-     *
-     * <p>keyword、campus、status、visitDate 都是可选条件。
-     * 这里用 StringBuilder 动态拼接 SQL 条件，同时用 PreparedStatement
-     * 绑定参数，既灵活又能防止 SQL 注入。</p>
-     *
-     * <p>权限控制：如果当前用户是部门管理员，并且查询公务预约，
-     * 则强制增加 visit_department_id 条件，只能看到本部门的公务预约。</p>
-     */
     public List<Reservation> search(ReservationType type, AdminUser viewer, String keyword, String campus, String status, String visitDate) throws SQLException {
         StringBuilder sql = new StringBuilder(baseSql()).append(" where r.type=?");
         List<Object> params = new ArrayList<>();
@@ -140,12 +108,6 @@ public class ReservationDao {
         return reservations;
     }
 
-    /**
-     * 公务预约审核。
-     *
-     * <p>审核时只更新状态、审核意见和审核时间；预约申请原始信息保持不变，
-     * 方便后续审计和追溯。</p>
-     */
     public void review(long id, ReservationStatus status, String comment) throws SQLException {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("update reservations set status=?, review_comment=?, review_time=current_timestamp where id=?")) {
@@ -156,12 +118,6 @@ public class ReservationDao {
         }
     }
 
-    /**
-     * 后台统计查询。
-     *
-     * <p>根据参数 dimension 支持按申请月度、预约月度、预约校区、公务访问部门统计。
-     * 统计结果返回 StatisticRow，页面只负责显示表格。</p>
-     */
     public List<StatisticRow> statistics(ReservationType type, String dimension, AdminUser viewer) throws SQLException {
         String expression = switch (dimension) {
             case "visitMonth" -> "date_format(r.visit_time, '%Y-%m')";
@@ -192,11 +148,6 @@ public class ReservationDao {
         return rows;
     }
 
-    /**
-     * 预约查询的基础 SQL。
-     *
-     * <p>left join departments 是为了在查询预约时同时显示公务访问部门名称。</p>
-     */
     private String baseSql() {
         return """
                 select r.*, d.name visit_department_name from reservations r
@@ -204,12 +155,6 @@ public class ReservationDao {
                 """;
     }
 
-    /**
-     * 将 Reservation 对象中的字段绑定到 PreparedStatement。
-     *
-     * <p>新增预约字段比较多，单独抽出 fill 方法能减少 save 方法长度，
-     * 也方便检查字段顺序是否和 SQL 占位符一致。</p>
-     */
     private void fill(PreparedStatement statement, Reservation reservation) throws SQLException {
         statement.setString(1, reservation.getType().name());
         statement.setString(2, reservation.getStatus().name());
@@ -239,12 +184,6 @@ public class ReservationDao {
         statement.setString(18, reservation.getPassCode());
     }
 
-    /**
-     * 将 ResultSet 当前行转换为 Reservation JavaBean。
-     *
-     * <p>这是典型的 DAO 映射逻辑：数据库表字段转换成 Java 对象，
-     * 之后 Servlet/JSP 就不需要直接依赖 ResultSet。</p>
-     */
     private Reservation map(ResultSet resultSet) throws SQLException {
         Reservation reservation = new Reservation();
         reservation.setId(resultSet.getLong("id"));

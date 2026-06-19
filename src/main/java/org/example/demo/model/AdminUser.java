@@ -2,12 +2,6 @@ package org.example.demo.model;
 
 import java.time.LocalDateTime;
 
-/**
- * 后台管理员实体类，对应 admin_users 表。
- *
- * <p>字段包括登录名、SM3 密码摘要、角色、所属部门、手机号、
- * 社会公众预约授权，以及登录失败次数和锁定时间。</p>
- */
 public class AdminUser {
     private Long id;
     private String name;

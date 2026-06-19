@@ -15,13 +15,6 @@ import org.example.demo.model.ReservationType;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 后台预约管理控制器。
- *
- * <p>同一个 Servlet 支持社会公众预约和公务预约两类管理页面。
- * type=PUBLIC 查询社会公众预约，type=OFFICIAL 查询公务预约。
- * 控制器负责权限判断、接收查询条件、调用 DAO 返回列表和统计结果。</p>
- */
 @WebServlet("/admin/reservations")
 public class AdminReservationsServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

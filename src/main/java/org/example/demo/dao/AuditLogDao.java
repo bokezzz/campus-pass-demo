@@ -13,19 +13,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * 审计日志 DAO。
- *
- * <p>任务书要求保存登录、查看预约信息等重要操作日志。
- * 本类集中负责日志写入和日志查询，审计管理员页面读取的就是这里的数据。</p>
- */
 public class AuditLogDao {
-    /**
-     * 写入一条审计日志。
-     *
-     * <p>日志写入失败时不打断主业务流程，所以这里捕获 SQLException。
-     * hmac 字段用 SM3 对关键字段做摘要，演示“日志完整性保护”的思路。</p>
-     */
     public void log(String actor, String action, String detail, String ipAddress) {
         try (Connection connection = DbUtil.getConnection();
              PreparedStatement statement = connection.prepareStatement("""
@@ -46,7 +34,6 @@ public class AuditLogDao {
         }
     }
 
-    /** 查询最近 200 条审计日志，供后台审计页面展示。 */
     public List<AuditLog> findAll() throws SQLException {
         List<AuditLog> logs = new ArrayList<>();
         try (Connection connection = DbUtil.getConnection();

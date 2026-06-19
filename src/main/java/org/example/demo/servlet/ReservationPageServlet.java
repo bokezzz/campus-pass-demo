@@ -10,11 +10,6 @@ import org.example.demo.dao.DepartmentDao;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 手机端“我要预约”页面控制器。
- *
- * <p>公务预约需要选择访问部门，所以进入表单页面前先从 departments 表加载部门列表。</p>
- */
 @WebServlet("/reserve")
 public class ReservationPageServlet extends HttpServlet {
     private final DepartmentDao departmentDao = new DepartmentDao();

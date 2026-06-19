@@ -15,13 +15,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-/**
- * 手机端“我要预约”提交控制器。
- *
- * <p>职责：读取 JSP 表单参数，封装成 Reservation JavaBean，
- * 调用 ReservationService 设置业务状态，再通过 ReservationDao 保存到数据库。
- * 这是 MVC 模式中典型的 Controller。</p>
- */
 @WebServlet("/reservation/create")
 public class ReservationCreateServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

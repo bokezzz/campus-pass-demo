@@ -1,10 +1,5 @@
 package org.example.demo.model;
 
-/**
- * 部门实体类，对应 departments 表。
- *
- * <p>用于后台部门管理，也用于公务预约选择访问部门。</p>
- */
 public class Department {
     private Long id;
     private String code;

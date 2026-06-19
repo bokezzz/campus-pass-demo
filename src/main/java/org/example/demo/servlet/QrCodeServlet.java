@@ -14,12 +14,6 @@ import javax.imageio.ImageIO;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 二维码图片接口。
- *
- * <p>pass-code.jsp 中的 img 标签访问 /qr-code?id=预约ID。
- * 本 Servlet 查询预约记录后，调用 QrCodeService 使用 ZXing 生成 PNG 二维码。</p>
- */
 @WebServlet("/qr-code")
 public class QrCodeServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();

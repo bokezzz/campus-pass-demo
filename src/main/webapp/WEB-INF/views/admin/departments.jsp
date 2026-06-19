@@ -11,6 +11,9 @@
 <div class="shell">
     <div class="panel">
         <h1>部门管理</h1>
+        <% if (request.getAttribute("error") != null) { %>
+        <p class="error"><%=request.getAttribute("error")%></p>
+        <% } %>
         <form method="post">
             <input type="hidden" name="id" value="<%=edit == null ? "" : edit.getId()%>">
             <div class="grid">

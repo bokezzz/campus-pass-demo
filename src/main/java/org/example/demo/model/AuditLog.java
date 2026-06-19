@@ -2,11 +2,6 @@ package org.example.demo.model;
 
 import java.time.LocalDateTime;
 
-/**
- * 审计日志实体类，对应 audit_logs 表。
- *
- * <p>记录操作人、操作类型、详情、IP 和操作时间，用于安全审计页面展示。</p>
- */
 public class AuditLog {
     private Long id;
     private String actor;

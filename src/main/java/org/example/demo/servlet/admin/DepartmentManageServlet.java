@@ -10,14 +10,9 @@ import org.example.demo.dao.DepartmentDao;
 import org.example.demo.model.Department;
 
 import java.io.IOException;
+import java.sql.SQLIntegrityConstraintViolationException;
 import java.sql.SQLException;
 
-/**
- * 后台部门管理控制器。
- *
- * <p>用于维护学校部门、学院等信息。公务预约需要选择访问部门，
- * 公务预约统计也可以按部门分组，因此部门管理是公务预约模块的基础数据。</p>
- */
 @WebServlet("/admin/departments")
 public class DepartmentManageServlet extends HttpServlet {
     private final DepartmentDao departmentDao = new DepartmentDao();
@@ -57,8 +52,29 @@ public class DepartmentManageServlet extends HttpServlet {
             }
             response.sendRedirect(request.getContextPath() + "/admin/departments");
         } catch (SQLException e) {
+            if (isDuplicateDepartmentCode(e)) {
+                request.setAttribute("error", "部门编号已存在，请使用其他编号。");
+                try {
+                    request.setAttribute("departments", departmentDao.findAll());
+                    request.getRequestDispatcher("/WEB-INF/views/admin/departments.jsp").forward(request, response);
+                    return;
+                } catch (SQLException loadException) {
+                    throw new ServletException(loadException);
+                }
+            }
             throw new ServletException(e);
         }
+    }
+
+    static boolean isDuplicateDepartmentCode(SQLException exception) {
+        if (!(exception instanceof SQLIntegrityConstraintViolationException)) {
+            return false;
+        }
+        String message = exception.getMessage();
+        return exception.getErrorCode() == 1062
+                || ("23000".equals(exception.getSQLState())
+                && message != null
+                && message.contains("departments.code"));
     }
 
     private String actor(HttpServletRequest request) {

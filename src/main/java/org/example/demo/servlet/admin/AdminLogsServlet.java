@@ -10,12 +10,6 @@ import org.example.demo.dao.AuditLogDao;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 审计日志页面控制器。
- *
- * <p>审计管理员或系统管理员可以查看系统关键操作记录，
- * 包括登录、查看通行码、预约查询、审核等。</p>
- */
 @WebServlet("/admin/logs")
 public class AdminLogsServlet extends HttpServlet {
     private final AuditLogDao auditLogDao = new AuditLogDao();

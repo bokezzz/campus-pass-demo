@@ -9,32 +9,12 @@ import java.sql.Statement;
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
-/**
- * 数据库工具类，负责整个系统的 JDBC 连接和首次启动时的表结构初始化。
- *
- * <p>答辩时可以说明：本项目采用 DAO + JDBC 的方式访问 MySQL，
- * 所有 DAO 都通过 {@link #getConnection()} 获取连接，避免在 Servlet
- * 中直接写数据库代码，从而符合 MVC 分层思想。</p>
- */
 public final class DbUtil {
-    /**
-     * 默认连接本机 MySQL 的 campus_pass_demo 数据库。
-     *
-     * <p>createDatabaseIfNotExist=true 表示数据库不存在时自动创建，
-     * 这样组员或老师第一次运行项目时不必手动建库。</p>
-     *
-     * <p>也可以通过 JVM 参数覆盖，例如：
-     * -Dcampus.db.url=... -Dcampus.db.user=... -Dcampus.db.password=...</p>
-     */
     private static final String URL = System.getProperty("campus.db.url",
             "jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true");
     private static final String USER = readConfig("campus.db.user", "CAMPUS_DB_USER", "root");
     private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "请改成自己的MySQL密码");
 
-    /**
-     * 防止同一个 Web 应用生命周期内重复执行建表和种子数据初始化。
-     * volatile 保证不同请求线程看到的 initialized 值是一致的。
-     */
     private static volatile boolean initialized;
 
     private DbUtil() {
@@ -57,12 +37,6 @@ public final class DbUtil {
         return DriverManager.getConnection(URL, USER, PASSWORD);
     }
 
-    /**
-     * 初始化数据库结构。
-     *
-     * <p>课程设计演示时，经常会换电脑或重新部署，所以这里使用
-     * create table if not exists 保证项目启动后自动具备基本数据表。</p>
-     */
     public static synchronized void initialize() throws SQLException {
         if (initialized) {
             return;
@@ -129,7 +103,6 @@ public final class DbUtil {
                     )
                     """);
             // 审计日志表：记录登录、查看通行码、查询预约、审核等关键操作。
-            // hmac 字段用 SM3 做完整性摘要，体现任务书中的安全审计要求。
             statement.execute("""
                     create table if not exists audit_logs (
                         id bigint primary key auto_increment,
@@ -146,11 +119,6 @@ public final class DbUtil {
         initialized = true;
     }
 
-    /**
-     * 写入演示用的基础数据。
-     *
-     * <p>只有当表为空时才插入，避免每次启动都重复生成部门或管理员。</p>
-     */
     private static void seedData() throws SQLException {
         try (Connection connection = DriverManager.getConnection(URL, USER, PASSWORD)) {
             if (count(connection, "departments") == 0) {
@@ -211,7 +179,6 @@ public final class DbUtil {
             statement.setString(6, phone);
             statement.setBoolean(7, publicPermission);
             statement.setTimestamp(8, Timestamp.valueOf(LocalDateTime.now()));
-            // 管理员密码在入库前使用 SM3 摘要，满足任务书“密码用国密 SM3 加密存储”的要求。
             statement.executeUpdate();
         }
     }

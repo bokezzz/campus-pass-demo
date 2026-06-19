@@ -14,13 +14,6 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.time.LocalDateTime;
 
-/**
- * 后台登录控制器。
- *
- * <p>答辩重点：这里实现身份鉴别。登录时先按登录名查询管理员，
- * 再将用户输入密码计算 SM3 摘要后与数据库中的 password_hash 比对。
- * 连续失败 5 次会锁定 30 分钟，登录成功后设置 Session 30 分钟超时。</p>
- */
 @WebServlet("/admin/login")
 public class AdminLoginServlet extends HttpServlet {
     private final AdminUserDao adminUserDao = new AdminUserDao();

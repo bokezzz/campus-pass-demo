@@ -12,12 +12,6 @@ import org.example.demo.model.ReservationType;
 import java.io.IOException;
 import java.sql.SQLException;
 
-/**
- * 后台首页控制器。
- *
- * <p>登录成功后进入 dashboard，展示社会公众预约按校区统计、
- * 公务预约按部门统计，作为后台管理端的概览页面。</p>
- */
 @WebServlet("/admin/dashboard")
 public class AdminDashboardServlet extends HttpServlet {
     private final ReservationDao reservationDao = new ReservationDao();
