@@ -10,26 +10,13 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 public final class DbUtil {
-    private static final String URL = System.getProperty("campus.db.url",
-            "jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true");
-    private static final String USER = readConfig("campus.db.user", "CAMPUS_DB_USER", "root");
-    private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "请改成自己的MySQL密码");
+    private static final String URL = "jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true";
+    private static final String USER = "root";
+    private static final String PASSWORD = "请改成自己的MySQL密码";
 
     private static volatile boolean initialized;
 
     private DbUtil() {
-    }
-
-    private static String readConfig(String propertyName, String envName, String defaultValue) {
-        String propertyValue = System.getProperty(propertyName);
-        if (propertyValue != null && !propertyValue.isBlank()) {
-            return propertyValue;
-        }
-        String envValue = System.getenv(envName);
-        if (envValue != null && !envValue.isBlank()) {
-            return envValue;
-        }
-        return defaultValue;
     }
 
     public static Connection getConnection() throws SQLException {

@@ -60,21 +60,8 @@ src/main/java/org/example/demo/util/DbUtil.java
 主要修改这两行：
 
 ```java
-private static final String USER = readConfig("campus.db.user", "CAMPUS_DB_USER", "root");
-private static final String PASSWORD = readConfig("campus.db.password", "CAMPUS_DB_PASSWORD", "请改成自己的MySQL密码");
+private static final String USER = "root";
+private static final String PASSWORD = "请改成自己的MySQL密码";
 ```
 
-如果不想改代码，也可以通过 JVM 参数覆盖：
-
-```text
--Dcampus.db.url=jdbc:mysql://localhost:3306/campus_pass_demo?createDatabaseIfNotExist=true&useUnicode=true&characterEncoding=UTF-8&serverTimezone=Asia/Shanghai&useSSL=false&allowPublicKeyRetrieval=true
--Dcampus.db.user=root
--Dcampus.db.password=自己的MySQL密码
-```
-
-也可以使用环境变量：
-
-```text
-CAMPUS_DB_USER=root
-CAMPUS_DB_PASSWORD=自己的MySQL密码
-```
+只在本地把占位文字替换为自己的 MySQL 密码，不要把填写了真实密码的 `DbUtil.java` 提交到 Git。
