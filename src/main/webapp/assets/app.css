@@ -46,6 +46,16 @@ a {
     box-shadow: 0 8px 24px rgba(35, 48, 68, .06);
 }
 
+.permission-panel {
+    max-width: 560px;
+    margin: 72px auto;
+    text-align: center;
+}
+
+.permission-panel h1 {
+    color: #b42318;
+}
+
 .hero {
     background: #18345f;
     color: white;

@@ -7,10 +7,10 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.example.demo.dao.AuditLogDao;
 import org.example.demo.dao.ReservationDao;
-import org.example.demo.model.AdminRole;
 import org.example.demo.model.AdminUser;
 import org.example.demo.model.ReservationStatus;
 import org.example.demo.model.ReservationType;
+import org.example.demo.util.AdminAccessPolicy;
 
 import java.io.IOException;
 import java.sql.SQLException;
@@ -23,11 +23,10 @@ public class AdminReservationsServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         AdminUser admin = (AdminUser) request.getSession().getAttribute("admin");
-        // 未传 type 时默认进入社会公众预约管理页面。
         ReservationType type = ReservationType.valueOf(request.getParameter("type") == null ? "PUBLIC" : request.getParameter("type"));
         try {
-            if (type == ReservationType.PUBLIC && !(admin.getRole() == AdminRole.SCHOOL_ADMIN || admin.getRole() == AdminRole.SYSTEM_ADMIN || admin.isPublicReservationPermission())) {
-                response.sendError(403, "无社会公众预约管理权限");
+            if (!AdminAccessPolicy.canAccess("/admin/reservations", type, admin.getRole(), admin.isPublicReservationPermission())) {
+                request.getRequestDispatcher("/WEB-INF/views/admin/forbidden.jsp").forward(request, response);
                 return;
             }
             request.setAttribute("type", type);
